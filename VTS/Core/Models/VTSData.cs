@@ -691,31 +691,95 @@ namespace VTS.Core {
 			this.onlyItemsWithInstanceID = onlyItemsWithInstanceID;
 		}
 
+		/// <summary>
+		/// If you want to know which order-spots are available to load items into right now, set "includeAvailableSpots" to true.
+		/// Otherwise, the "availableSpots" array in the response will be empty.
+		/// </summary>
 		public bool includeAvailableSpots;
+		/// <summary>
+		/// If you want to know which items are loaded in the scene into right now, set "includeItemInstancesInScene" to true.
+		/// Otherwise, the "itemInstancesInScene" array in the response will be empty.
+		/// </summary>
 		public bool includeItemInstancesInScene;
+		/// <summary>
+		/// If you want to know which item files are available to be loaded, set "includeAvailableItemFiles" to true.
+		/// Otherwise, the "availableItemFiles" array in the response will be empty.
+		/// IMPORTANT: This reads the full list of item files from the user's PC.
+		/// This may lag the app for a small moment,
+		/// so do not use this request with "includeAvailableItemFiles" set to true often.
+		/// Only use it if you really need to refresh the list of available item files.
+		/// Set it to false in any other case.
+		/// </summary>
 		public bool includeAvailableItemFiles;
+		/// <summary>
+		/// If you only want the item lists to contain items with a certain certain filename
+		/// IMPORTANT: this is case-sensitive and must be the full filename, including the extension. EG: "OPTIONAL_my_item_filename.png"
+		/// </summary>
 		public string onlyItemsWithFileName;
+		/// <summary>
+		/// If you only want the item lists to contain items with a certain certain Instance ID
+		/// IMPORTANT: this is case-sensitive, including the extension. EG: "OPTIONAL_InstanceIdOfItemInScene"
+		/// </summary>
 		public string onlyItemsWithInstanceID;
 	}
 
 	[System.Serializable]
 	public class ItemInstance {
+		/// <summary>
+		/// file name and extension of the item
+		/// </summary>
 		public string fileName;
 		public string instanceID;
 		public int order;
+		/// <summary>
+		/// The item type can be found in the "type" field. Possible values are PNG, JPG, GIF, AnimationFolder or Live2D. 
+		/// </summary>
+		/// <remarks>If you're getting Unknown create an issue on https://github.com/FomTarro/VTS-Sharp </remarks>
 		public string type;
+		/// <summary>
+		/// If the item is censoring the model
+		/// </summary>
 		public bool censored;
+		/// <summary>
+		/// If the item is flipped or mirrored
+		/// </summary>
 		public bool flipped;
 		public bool locked;
 		public float smoothing;
+		/// <summary>
+		/// "framerate" is only available for animated items (GIFs and animation frame folders).
+		/// </summary>
 		public float framerate;
+		/// <summary>
+		/// "frameCount" is only available for animated items (GIFs and animation frame folders).
+		/// </summary>
 		public int frameCount;
+		/// <summary>
+		/// Current frame of the animation
+		/// </summary>
 		public int currentFrame;
+		/// <summary>
+		/// If "pinnedToModel" is true,
+		/// "pinnedModelID" will contain the model ID of the model the item is pinned to (which will be the currently loaded model)
+		/// and "pinnedArtMeshID" will contain the ID of the ArtMesh the item is pinned to.
+		/// </summary>
 		public bool pinnedToModel;
+		/// <summary>
+		/// Model ID of the model this item is pinned to
+		/// </summary>
 		public string pinnedModelID;
+		/// <summary>
+		/// Artmesh ID of the artmesh this item is pinned to
+		/// </summary>
 		public string pinnedArtMeshID;
 		public string groupName;
+		/// <summary>
+		/// sceneName is only available if the item is loaded into the scene.
+		/// </summary>
 		public string sceneName;
+		/// <summary>
+		/// If the item was loaded from the steam workshop
+		/// </summary>
 		public bool fromWorkshop;
 	}
 
@@ -754,8 +818,17 @@ namespace VTS.Core {
 
 		[System.Serializable]
 		public class Data {
+			/// <summary>
+			/// A count of the number of items currently loaded in the scene.
+			/// </summary>
 			public int itemsInSceneCount;
+			/// <summary>
+			/// Count of items that can be loaded into a scene. trying to load more than this will fail.
+			/// </summary>
 			public int totalItemsAllowedCount;
+			/// <summary>
+			/// "canLoadItemsRightNow" may be false if the user has certain menus or dialogs open in VTube Studio. This generally prevents actions such as loading items, using hotkeys and more.
+			/// </summary>
 			public bool canLoadItemsRightNow;
 			public int[] availableSpots;
 			public ItemInstance[] itemInstancesInScene;
@@ -1299,7 +1372,7 @@ namespace VTS.Core {
 			public bool pin;
 			public string itemInstanceID;
 			public VTSItemAngleRelativityMode angleRelativeTo;
-			public VTSItemSizeRelativityMode sizeRealtiveTo;
+			public VTSItemSizeRelativityMode sizeRelativeTo;
 			public VTSVertexPinMode vertexPinType;
 			public ArtMeshCoordinate pinInfo;
 		}
